@@ -5,15 +5,28 @@ import auth from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // CLOCK IN
-const allowed = await pool.query(
-  `SELECT 1 FROM project_assignments
-   WHERE user_id=$1 AND project_id=$2`,
-  [req.user.id, projectId]
-);
+router.post("/in", auth, async (req, res) => {
+  const { projectId } = req.body;
 
-if (!allowed.rows.length) {
-  return res.status(403).json({ error: "Not assigned to project" });
-}
+  const allowed = await pool.query(
+    `SELECT 1 FROM project_assignments
+     WHERE user_id=$1 AND project_id=$2`,
+    [req.user.id, projectId]
+  );
+
+  if (!allowed.rows.length) {
+    return res.status(403).json({ error: "Not assigned to project" });
+  }
+
+  await pool.query(
+    `INSERT INTO time_logs (user_id, project_id, clock_in)
+     VALUES ($1, $2, NOW())`,
+    [req.user.id, projectId]
+  );
+
+  res.json({ success: true });
+});
+
 
 
 // CLOCK OUT
