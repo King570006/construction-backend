@@ -41,6 +41,8 @@ router.post("/out", auth, async (req, res) => {
   res.json({ success: true });
 });
 
+// redeploy
+
 // TIMESHEET WITH DURATION
 router.get("/logs", auth, async (req, res) => {
   const result = await pool.query(
