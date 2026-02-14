@@ -14,6 +14,10 @@ app.use("/api/clock", clockRoutes);
 
 const PORT = process.env.PORT || 4000;
 
+app.get("/", (req, res) => {
+  res.send("Backend running");
+});
+
 app.listen(PORT, () =>
   console.log(`Backend running on port ${PORT}`)
 );
