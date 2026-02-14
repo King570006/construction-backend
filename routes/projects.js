@@ -1,4 +1,9 @@
+import express from "express";
+import { pool } from "../db.js";
+import auth from "../middleware/authMiddleware.js";
 import requireOwner from "../middleware/requireOwner.js";
+
+const router = express.Router();
 
 router.post("/", auth, requireOwner, async (req, res) => {
   const { name, address, latitude, longitude, radius } = req.body;
@@ -11,3 +16,5 @@ router.post("/", auth, requireOwner, async (req, res) => {
 
   res.sendStatus(201);
 });
+
+export default router;

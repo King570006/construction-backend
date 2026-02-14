@@ -12,4 +12,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/clock", clockRoutes);
 
-app.listen(4000, () => console.log("Backend running on port 4000"));
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () =>
+  console.log(`Backend running on port ${PORT}`)
+);
+
